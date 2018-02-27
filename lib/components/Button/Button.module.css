@@ -1,0 +1,79 @@
+.button {
+    background-color: var(--color-grey);
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    padding: .5rem;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.button:hover,
+.button:focus {
+    border-width: 2px;
+    padding: calc(.5rem - 1px);
+}
+
+.button[disabled] {
+    background-color: var(--color-light);
+    border-color: var(--color-grey);
+    border-width: 1px;
+    color: var(--color-grey);
+    cursor: not-allowed;
+    padding: .5rem;
+}
+
+/* Modifiers */
+.primary,
+.secondary {
+    composes: button;
+    text-transform: uppercase;
+}
+
+.primary {
+    background-color: var(--color-brand);
+    color: var(--color-light);
+}
+
+.secondary {
+    background-color: var(--color-grey);
+    border-color: var(--color-brand);
+    color: var(--color-dark);
+}
+
+.large,
+.small {
+    composes: button;
+}
+
+.large {
+    min-width: 300px;
+}
+
+.small {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.icon {
+    composes: button;
+}
+
+i {
+    background: var(--color-dark);
+    display: none;
+    margin-right: .5rem;
+}
+
+.icon i {
+    display: inline-block;
+}
