@@ -1,6 +1,8 @@
+@import './src/colors.scss';
+
 .link {
-    color: var(--color-dark);
-    font-family: var(--font-family);
+    color: $color-dark;
+    font-family: $font-family;
     font-size: 1rem;
 }
 
@@ -19,6 +21,5 @@
 
 /* Modifiers */
 .primary {
-    composes: link;
     text-transform: uppercase;
 }

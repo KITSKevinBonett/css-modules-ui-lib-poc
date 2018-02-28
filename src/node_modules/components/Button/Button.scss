@@ -1,8 +1,10 @@
+@import './src/colors.scss';
+
 .button {
-    background-color: var(--color-grey);
-    border: 1px solid var(--color-dark);
-    color: var(--color-dark);
-    font-family: var(--font-family);
+    background-color: $color-grey;
+    border: 1px solid $color-dark;
+    color: $color-dark;
+    font-family: $font-family;
     font-size: 1rem;
     padding: .5rem;
 }
@@ -22,10 +24,10 @@
 }
 
 .button[disabled] {
-    background-color: var(--color-light);
-    border-color: var(--color-grey);
+    background-color: $color-light;
+    border-color: $color-grey;
     border-width: 1px;
-    color: var(--color-grey);
+    color: $color-grey;
     cursor: not-allowed;
     padding: .5rem;
 }
@@ -33,24 +35,18 @@
 /* Modifiers */
 .primary,
 .secondary {
-    composes: button;
     text-transform: uppercase;
 }
 
 .primary {
-    background-color: var(--color-brand);
-    color: var(--color-light);
+    background-color: $color-brand;
+    color: $color-light;
 }
 
 .secondary {
-    background-color: var(--color-grey);
-    border-color: var(--color-brand);
-    color: var(--color-dark);
-}
-
-.large,
-.small {
-    composes: button;
+    background-color: $color-grey;
+    border-color: $color-brand;
+    color: $color-dark;
 }
 
 .large {
@@ -64,12 +60,8 @@
     white-space: nowrap;
 }
 
-.icon {
-    composes: button;
-}
-
 i {
-    background: var(--color-dark);
+    background: $color-dark;
     display: none;
     margin-right: .5rem;
 }

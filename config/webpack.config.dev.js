@@ -11,6 +11,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -66,6 +67,7 @@ module.exports = {
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+    // So we can export as a CommonJS lib
     libraryTarget: 'commonjs2'
   },
   resolve: {
@@ -158,6 +160,8 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
+            // This is default for create-react-app + CSS Modules.
+            // Now replaced by Sass loader.
             test: /\.module.css$/,
             use: [
               require.resolve('style-loader'),
@@ -166,7 +170,7 @@ module.exports = {
                 options: {
                   importLoaders: 1,
                   modules: true,
-                  localIdentName: '[path]__[name]___[local]',
+                  localIdentName: '[name]___[local]___[hash:base64:5]',
                 },
               },
               {
@@ -224,6 +228,24 @@ module.exports = {
               },
             ],
           },
+          {
+            test: /\.scss$/,
+            use: ExtractTextPlugin.extract({
+              use: [
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: true,
+                    sourceMap: true,
+                    modules: true,
+                    importLoaders: 2,
+                    localIdentName: '[name]___[local]___[hash:base64:5]'
+                  }
+                },
+                'sass-loader'
+              ]
+            })
+          },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -234,7 +256,7 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss/],
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
@@ -279,6 +301,10 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ExtractTextPlugin({
+        filename: 'styles.css',
+        allChunks: true
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -295,6 +321,7 @@ module.exports = {
   performance: {
     hints: false,
   },
+  // So app that imports this lib is responsible for versioning
   externals: {
     'react': 'commonjs react'
   }
