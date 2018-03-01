@@ -21,14 +21,21 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 2. Add this plugin to plugins array
 ```javascript
-new ExtractTextPlugin({
-    filename: 'styles.css',
-    allChunks: true
-})
+plugins: [
+    // ... other plugins ...
+    new ExtractTextPlugin({
+        filename: 'styles.css',
+        allChunks: true
+    })
+],
 ```
 
 3. Add 'scss' loader after the 'css' loader
 ```javascript
+{
+    test: /\.css$/,
+    // ... CSS loader ...
+},
 {
     test: /\.scss$/,
     use: ExtractTextPlugin.extract({
