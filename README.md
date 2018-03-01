@@ -1,17 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and includes CSS Modules.
+## React UI library POC with CSS Modules
 
-It's a POC UI library.
+This project was bootstrapped with [create-react-app-css-modules](https://www.npmjs.com/package/react-scripts-cssmodules).
 
-To use:
+It is a POC UI library. Not production ready.
 
-1. `npm i css-modules-ui-lib-poc`
-2. In your consuming React app, `import { Button, Link } from 'css-modules-ui-lib-poc';`
-3. Example `<Button/>` usage:
+## How to use
+
+### 1. Install library in your consuming app
+`npm i css-modules-ui-lib-poc`
+
+### 2. Install other Node packages if not already installed
+`npm i --save babel-cli babel-preset-es2015 babel-preset-react babel-preset-stage-0 classnames node-sass sass-loader`
+
+### 3. Modify "webpack.config.js"
+
+1. Require 'ExtractTextPlugin' to generate stylesheet
+```javascript
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 ```
-<Button text="button" />
-<Button disabled="disabled" text="disabled button" />
-<Button className="primary" text="primary button" />
-<Button className="secondary" text="secondary button" />
-<Button className="primary" size="large" text="large primary" />
-<Button className="icon" icon="info" text="with icon" />
+
+2. Add this plugin to plugins array
+```javascript
+new ExtractTextPlugin({
+    filename: 'styles.css',
+    allChunks: true
+})
+```
+
+3. Add 'scss' loader after the 'css' loader
+```javascript
+{
+    test: /\.scss$/,
+    use: ExtractTextPlugin.extract({
+      use: [
+        {
+          loader: 'css-loader',
+          options: {
+            minimize: true,
+            sourceMap: true,
+            modules: true,
+            importLoaders: 2,
+            localIdentName: '[name]___[local]___[hash:base64:5]'
+          }
+        },
+        'sass-loader'
+      ]
+    })
+},
+```
+
+4. Add 'scss' to the exclude array
+```javascript
+exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss/],
+```
+
+### 4. Example `<Button/>` usage
+```jsx
+import React, { Component } from 'react';
+import { Button } from 'css-modules-ui-lib-poc';
+
+export default class MyComponent extends Component {
+  render() {
+    return (
+        <div className="App">
+            <Button text="button" />
+
+            <Button className="primary" disabled="disabled" text="disabled primary" />
+
+            <Button className="secondary" text="secondary button" />
+
+            <Button className="primary" size="small" text="small primary" />
+
+            <Button className="icon" icon="info" text="with icon" />
+        </div>
+    );
+  }
+}
 ```

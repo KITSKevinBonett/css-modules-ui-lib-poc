@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.scss';
 
 import Button from './node_modules/components/Button/Button.js';
 import Link from './node_modules/components/Link/Link.js';
