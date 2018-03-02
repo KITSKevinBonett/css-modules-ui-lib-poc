@@ -2,7 +2,9 @@
 
 This project was bootstrapped with [create-react-app-css-modules](https://www.npmjs.com/package/react-scripts-cssmodules).
 
-It is a POC UI library. Not production ready.
+- It is a POC UI library. Not production ready.
+- The components are not fully formed.
+- It's essentially a "scaffold" to test CSS Modules + Sass.
 
 ## How to use
 
