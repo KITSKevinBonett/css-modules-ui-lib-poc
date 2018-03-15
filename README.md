@@ -21,9 +21,22 @@ externals: {
 
 Start server with ```npm start```.
 
-## How to use as a library
+## How does this all work as a library / NPM package?
 
-The library has been exported with ```npm run build``` and published to NPM.
+The library has been published to NPM.
+
+### "package.json" configuration
+
+- Package name has been defined - e.g. ```"name": "css-modules-ui-lib-poc"```.
+- Library entry point has been defined - e.g. ```"main": "lib/index.js"```.
+- Library has been exported with ```npm run lib```.
+
+### Component configuration
+
+- Each component in "src\lib\components" has an associated ".js", ".scss" and ".json" file.
+- Each component is exported as a module in "src\lib\index.js" - e.g. ```export { default as Button } from './components/Button';```.
+
+## How to use as a library from another application?
 
 ### 1. Install library in your consuming app
 `npm i css-modules-ui-lib-poc`
