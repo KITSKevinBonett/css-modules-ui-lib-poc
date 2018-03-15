@@ -6,9 +6,9 @@ This project was bootstrapped with [create-react-app-css-modules](https://www.np
 - The components are not fully formed.
 - It's essentially a "scaffold" to test CSS Modules + Sass.
 
-## View components
+## View components in browser
 
-1. Comment out the following sections in "config\webpack.config.dev.js"
+Comment out the following sections in "config\webpack.config.dev.js"
 ```javascript
 libraryTarget: 'commonjs2'
 ```
@@ -19,7 +19,7 @@ externals: {
 }
 ```
 
-2. Start server with ```npm start```.
+Start server with ```npm start```.
 
 ## How to use as a library
 
