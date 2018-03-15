@@ -6,7 +6,24 @@ This project was bootstrapped with [create-react-app-css-modules](https://www.np
 - The components are not fully formed.
 - It's essentially a "scaffold" to test CSS Modules + Sass.
 
-## How to use
+## View components
+
+1. Comment out the following sections in "config\webpack.config.dev.js"
+```javascript
+libraryTarget: 'commonjs2'
+```
+
+```javascript
+externals: {
+    'react': 'commonjs react'
+}
+```
+
+2. Start server with ```npm start```.
+
+## How to use as a library
+
+The library has been exported with ```npm run build``` and published to NPM.
 
 ### 1. Install library in your consuming app
 `npm i css-modules-ui-lib-poc`
