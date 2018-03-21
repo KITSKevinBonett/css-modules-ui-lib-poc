@@ -19,7 +19,7 @@ export default class Button extends Component {
                 className={className}
                 disabled={this.props.disabled}>
                     {icon}
-                    <span>{this.props.text}</span>
+                    <span>{this.props.label}</span>
             </button>
         );
     }

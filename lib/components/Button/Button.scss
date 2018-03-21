@@ -1,7 +1,8 @@
 @import '../../globals/globals.scss';
 
 .button {
-    background-color: $color-grey;
+    background: linear-gradient(white, white); // Test webpack "postcss-loader" works (e.g. "autoprefixer")
+    background: $color-grey;
     border: 1px solid $color-dark;
     color: $color-dark;
     font-family: $font-family;

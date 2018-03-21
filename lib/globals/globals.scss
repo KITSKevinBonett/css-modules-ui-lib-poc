@@ -1,5 +1,2 @@
-$color-brand: tomato !default;
-$color-dark: #111 !default;
-$color-light: #eee !default;
-$color-grey: #ccc !default;
-$font-family: sans-serif !default;
+@import 'colors.scss';
+@import 'typography.scss';

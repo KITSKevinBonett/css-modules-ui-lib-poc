@@ -7,34 +7,34 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Link text="link" />
+                <Link label="link" />
                 <br/><br/>
 
-                <Link className="primary" text="primary link" />
+                <Link className="primary" label="primary link" />
                 <br/><br/>
 
-                <Button text="button" />
+                <Button label="button" />
                 <br/><br/>
 
-                <Button disabled="disabled" text="disabled button" />
+                <Button disabled="disabled" label="disabled button" />
                 <br/><br/>
 
-                <Button className="primary" text="primary button" />
+                <Button className="primary" label="primary button" />
                 <br/><br/>
 
-                <Button className="primary" disabled="disabled" text="disabled primary" />
+                <Button className="primary" disabled="disabled" label="disabled primary" />
                 <br/><br/>
 
-                <Button className="secondary" text="secondary button" />
+                <Button className="secondary" label="secondary button" />
                 <br/><br/>
 
-                <Button className="primary" size="large" text="large primary" />
+                <Button className="primary" size="large" label="large primary" />
                 <br/><br/>
 
-                <Button className="primary" size="small" text="small primary" />
+                <Button className="primary" size="small" label="small primary" />
                 <br/><br/>
 
-                <Button className="icon" icon="info" text="with icon" />
+                <Button className="icon" icon="info" label="with icon" />
                 <br/><br/>
             </div>
         );

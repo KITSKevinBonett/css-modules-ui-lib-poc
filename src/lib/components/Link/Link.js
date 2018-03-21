@@ -11,7 +11,7 @@ export default class Link extends Component {
 
         return (
             <a href="/" className={className} >
-                {this.props.text}
+                {this.props.label}
             </a>
         );
     }

@@ -68,7 +68,7 @@ module.exports = {
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
     // So we can export as a CommonJS lib
-    libraryTarget: 'commonjs2'
+    // libraryTarget: 'commonjs2'
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -159,77 +159,13 @@ module.exports = {
           // "style" loader turns CSS into JS modules that inject <style> tags.
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
+
+          // ----------------
+
+          // Removed default config from ejected Create React App + CSS Modules (including "style-loader").
+          // Instead, using "sass-loader" and "ExtractTextPlugin".
           {
-            // This is default for create-react-app + CSS Modules.
-            // Now replaced by Sass loader.
-            test: /\.module.css$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                  modules: true,
-                  localIdentName: '[name]___[local]___[hash:base64:5]',
-                },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-            ],
-          },
-          {
-            test: /\.css$/,
-            exclude: /\.module\.css$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-            ],
-          },
-          {
-            test: /\.scss$/,
+            test: /\.s|css$/,
             use: ExtractTextPlugin.extract({
               use: [
                 {
@@ -240,6 +176,26 @@ module.exports = {
                     modules: true,
                     importLoaders: 2,
                     localIdentName: '[name]___[local]___[hash:base64:5]'
+                  }
+                },
+                {
+                  loader: 'postcss-loader',
+                    options: {
+                    // Necessary for external CSS imports to work
+                    // https://github.com/facebookincubator/create-react-app/issues/2677
+                    ident: 'postcss',
+                    plugins: () => [
+                      require('postcss-flexbugs-fixes'),
+                      autoprefixer({
+                        browsers: [
+                          '>1%',
+                          'last 4 versions',
+                          'Firefox ESR',
+                          'not ie < 9', // React doesn't support IE8 anyway
+                        ],
+                        flexbox: 'no-2009',
+                      }),
+                    ],
                   }
                 },
                 'sass-loader'
@@ -256,7 +212,7 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss$/],
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
@@ -302,7 +258,7 @@ module.exports = {
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new ExtractTextPlugin({
-        filename: 'styles.css',
+        filename: 'static/css/[name].css',
         allChunks: true
     })
   ],
@@ -322,7 +278,7 @@ module.exports = {
     hints: false,
   },
   // So app that imports this lib is responsible for versioning
-  externals: {
-    'react': 'commonjs react'
-  }
+  // externals: {
+  //   'react': 'commonjs react'
+  // }
 };

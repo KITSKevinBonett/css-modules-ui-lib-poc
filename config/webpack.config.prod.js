@@ -34,28 +34,17 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
 }
 
-// Create two seperate files for css and cssmodules this allow for
-// different settings to be used with ExtractTextPlugin.
-const cssFilename = 'static/css/[name].[contenthash:8].css';
-const cssModulesFilename = 'static/css/[name]-cssmodules.[contenthash:8].css';
+// Create file for cssmodules to be used with ExtractTextPlugin.
+const cssModulesFilename = 'static/css/[name].[contenthash:8].css';
 
 // ExtractTextPlugin expects the build output to be flat.
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
 // However, our output is structured with css, js and media folders.
 // To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginCSSOptions = shouldUseRelativeAssetPaths
-  ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
-  : {};
-
 const extractTextPluginCSSModulesOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
   { publicPath: Array(cssModulesFilename.split('/').length).join('../') }
   : {};
-
-const ExtractTextPluginCSS = new ExtractTextPlugin({
-  filename: cssFilename,
-})
 
 const ExtractTextPluginCSSModules = new ExtractTextPlugin({
   filename: cssModulesFilename,
@@ -106,7 +95,7 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
+
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -137,7 +126,7 @@ module.exports = {
             options: {
               formatter: eslintFormatter,
               eslintPath: require.resolve('eslint'),
-              
+
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -165,7 +154,7 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
+
               compact: true,
             },
           },
@@ -181,8 +170,13 @@ module.exports = {
           // tags. If you use code splitting, however, any async bundles will still
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
+
+          // ----------------
+
+          // Removed default config from ejected Create React App + CSS Modules.
+          // Instead, using "sass-loader" and "ExtractTextPlugin".
           {
-            test: /\.module.css$/,
+            test: /\.s|css$/,
             loader: ExtractTextPluginCSSModules.extract(
               Object.assign(
                 {
@@ -191,9 +185,9 @@ module.exports = {
                     {
                       loader: require.resolve('css-loader'),
                       options: {
-                        importLoaders: 1,
+                        importLoaders: 2,
                         modules: true,
-                        localIdentName: '[path]__[name]___[local]',
+                        localIdentName: '[name]___[local]___[hash:base64:5]',
                         minimize: true,
                         sourceMap: shouldUseSourceMap,
                       },
@@ -218,60 +212,13 @@ module.exports = {
                         ],
                       },
                     },
+                    'sass-loader'
                   ],
                 },
                 extractTextPluginCSSModulesOptions
               )
             ),
             // Note: this won't work without `ExtractTextPluginCSSModules` in `plugins`.
-          },
-          {
-            test: /\.css$/,
-            exclude: /\.module\.css$/,
-            loader: ExtractTextPluginCSS.extract(
-              Object.assign(
-                {
-                  fallback: {
-                    loader: require.resolve('style-loader'),
-                    options: {
-                      hmr: false,
-                    },
-                  },
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                        minimize: true,
-                        sourceMap: shouldUseSourceMap,
-                      },
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: {
-                        // Necessary for external CSS imports to work
-                        // https://github.com/facebookincubator/create-react-app/issues/2677
-                        ident: 'postcss',
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
-                        ],
-                      },
-                    },
-                  ],
-                },
-                extractTextPluginCSSOptions
-              )
-            ),
-            // Note: this won't work without `ExtractTextPluginCSS` in `plugins`.
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
@@ -283,7 +230,7 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss$/],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -345,9 +292,6 @@ module.exports = {
       sourceMap: shouldUseSourceMap,
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    // We have two ExtractTextPlugins to allow for different settings for
-    // cssmodules and regular css
-    ExtractTextPluginCSS,
     ExtractTextPluginCSSModules,
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
