@@ -1,6 +1,6 @@
 {
   "name": "css-modules-ui-lib-poc",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "lib/index.js",
   "description": "POC - build UI library from create-react-app with CSS Modules",
   "author": "Kev Bonett",
