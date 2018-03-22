@@ -35,7 +35,8 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 // Create file for cssmodules to be used with ExtractTextPlugin.
-const cssModulesFilename = 'static/css/[name].[contenthash:8].css';
+// const cssModulesFilename = 'static/css/[name].[contenthash:8].css';
+const cssModulesFilename = 'static/css/[name].ui-lib.css';
 
 // ExtractTextPlugin expects the build output to be flat.
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
@@ -68,8 +69,9 @@ module.exports = {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
-    filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    // filename: 'static/js/[name].[chunkhash:8].js',
+    filename: 'static/js/[name].ui-lib.js',
+    // chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -77,6 +79,9 @@ module.exports = {
       path
         .relative(paths.appSrc, info.absoluteResourcePath)
         .replace(/\\/g, '/'),
+    // Exports lib as CommonJS, AMD and as global variable
+    libraryTarget: 'umd',
+    library: 'uiComponentLib'
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -345,4 +350,8 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
+  // So app that imports this lib is responsible for versioning
+  externals: {
+    'react': 'commonjs react'
+  }
 };

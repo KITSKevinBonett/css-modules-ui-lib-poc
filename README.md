@@ -14,7 +14,8 @@ You have 2 choices:
 
 - Comment out the following sections in "config\webpack.config.dev.js"
 ```javascript
-libraryTarget: 'commonjs2'
+libraryTarget: 'umd'
+library: 'uiLibPOC'
 ```
 ```javascript
 externals: {
@@ -28,6 +29,7 @@ externals: {
 
 ### 2. Or build the app and browse with static server
 
+- Comment out the same sections as above in "config\webpack.config.prod.js"
 - ```npm run build```.
 - Run static server ```serve -s build```.
 - View app at http://localhost:5000
@@ -47,7 +49,7 @@ The library has been published to NPM.
 - Each component in "src\lib\components" has an associated ".js", ".scss" and ".json" file.
 - Each component is exported as a module in "src\lib\index.js" - e.g. ```export { default as Button } from './components/Button';```.
 
-## So how do I use this library from another application?
+## So how do I use this library from another React application?
 
 ### 1. Install library in your consuming app
 `npm i css-modules-ui-lib-poc`
